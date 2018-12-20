@@ -5,6 +5,8 @@ let index = 0;
 
 let arcs = [];
 
+let biggest = 0;
+
 class Arc {
     constructor(start, end, dir) {
         this.start = start;
@@ -18,16 +20,16 @@ class Arc {
         stroke(255);
         noFill();
         if (this.dir === 0) {
-            arc(x, floor(height / 2), diameter, diameter, PI, 0);
+            arc(x, 0, diameter, diameter, PI, 0);
         } else {
-            arc(x, floor(height / 2), diameter, diameter, 0, PI);
+            arc(x, 0, diameter, diameter, 0, PI);
         }
     }
 
 }
 
 function setup() {
-    createCanvas(600, 400);
+    createCanvas(windowWidth, windowHeight);
     background(0);
 
     // initialize
@@ -53,12 +55,20 @@ function step() {
     arcs.push(a);
 
     index = next;
+
+    if (index > biggest) {
+        biggest = index;
+    }
+
     counter++;
 }
 
 function draw() {
-    background(0);
     step();
+    
+    background(0);
+    translate(0, floor(height / 2));
+    scale(width / biggest);
 
     for (let arc of arcs) {
        arc.show(); 
