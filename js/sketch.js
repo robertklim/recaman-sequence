@@ -5,16 +5,11 @@ let index = 0;
 
 function setup() {
     createCanvas(600, 400);
-    
+    background(0);
+
     // initialize
     numbers[index] = true;
     sequence.push(index);
-
-    for (let i = 0; i < 10; i++) {
-        step();
-    }
-
-    console.log(sequence);
 
 }
 
@@ -26,10 +21,17 @@ function step() {
     }
     numbers[next] = true;
     sequence.push(next);
+
+    let diameter = next - index;
+    let x = (next + index) / 2;
+    stroke(255);
+    noFill();
+    ellipse(x, floor(height / 2), diameter);
+
     index = next;
     counter++;
 }
 
 function draw() {
-    background(0);
+    step();
 }
