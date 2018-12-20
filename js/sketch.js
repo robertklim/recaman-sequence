@@ -11,6 +11,10 @@ function setup() {
     numbers[index] = true;
     sequence.push(index);
 
+    // for (let i = 0; i < 152; i++) {
+    //     step();
+    // }
+
 }
 
 function step() {
@@ -26,7 +30,12 @@ function step() {
     let x = (next + index) / 2;
     stroke(255);
     noFill();
-    ellipse(x, floor(height / 2), diameter);
+    if (counter % 2 === 0) {
+        arc(x, floor(height / 2), diameter, diameter, PI, 0);
+    } else {
+        arc(x, floor(height / 2), diameter, diameter, 0, PI);
+    }
+    
 
     index = next;
     counter++;
