@@ -7,6 +7,18 @@ let arcs = [];
 
 let biggest = 0;
 
+let osc;
+
+let env;
+
+var attackLevel = 1.0;
+var releaseLevel = 0;
+
+var attackTime = 0.001
+var decayTime = 0.2;
+var susPercent = 0.2;
+var releaseTime = 0.5;
+
 class Arc {
     constructor(start, end, dir) {
         this.start = start;
@@ -29,8 +41,21 @@ class Arc {
 }
 
 function setup() {
+    frameRate(5);
     createCanvas(windowWidth, windowHeight);
     background(0);
+
+    // create an envelope
+    env = new p5.Envelope();
+    env.setADSR(attackTime, decayTime, susPercent, releaseTime);
+    env.setRange(attackLevel, releaseLevel);
+
+    // create an oscilator
+    osc = new p5.Oscillator();
+    osc.setType('sine');
+    //osc.freq(240);
+    osc.amp(env);
+    osc.start();
 
     // initialize
     numbers[index] = true;
@@ -55,6 +80,12 @@ function step() {
     arcs.push(a);
 
     index = next;
+
+    let n = (index % 25) + 48;
+
+    let freq = pow(2, (n - 49) / 12) * 440;
+    osc.freq(freq);
+    env.play();
 
     if (index > biggest) {
         biggest = index;
